@@ -37,8 +37,12 @@ function newElement(tag,name,classes,attrs,contents) {
 
 function createTree(descriptor) {
 	var ret=document.createElement(descriptor.tag);
-	ret.id=descriptor.id;
-	ret.className=descriptor.className;
+	if ( descriptor.id ) {
+		ret.id=descriptor.id;
+	}
+	if ( descriptor.className ) {
+		ret.className=descriptor.className;
+	}
 	if ( descriptor.attr ) {
 		for ( var a in descriptor.attr ) {
 			ret.setAttribute( a, descriptor.attr[a] );
@@ -47,10 +51,19 @@ function createTree(descriptor) {
 	if ( descriptor.contents ) {
 		switch (typeof descriptor.contents ) {
 			case "string":
-				ret.innerHTML=descriptor.contents;
+				//it is simply a string
+				ret.innerHTML = descriptor.contents;
 				break;
 			case "object":
-				ret.appendChild(createTree(descriptor.contents));
+				if ( Array.isArray( descriptor.contents ) ) {
+					//it is an array of objects
+					for( var i = 0; i < descriptor.contents.length; i++ ) {
+						ret.appendChild(createTree(descriptor.contents[i]));
+					}
+				} else {
+					//it is an object
+					ret.appendChild(createTree(descriptor.contents));
+				}
 				break;
 		}
 	}
@@ -69,23 +82,35 @@ function searchArtist(query) {
 		}
 
 		var artists = result.childNodes[0].getElementsByTagName("artist");
+		artistResults.innerHTML="";
 		for ( var i = 0; i < artists.length ; i++ ) {
-			var header = document.createElement("h3");
-			header.className = "title";
-			var headerLink = document.createElement("a");
-			headerLink.setAttribute( "href", artists[i].getAttribute("href") );
-			headerLink.innerHTML = artists[i].getElementsByTagName("name")[0].textContent;
-			header.appendChild( headerLink );
-			var listItem = document.createElement( "li" );
-			listItem.appendChild( header );
 			artistResults.appendChild(
-				newElement("li",null,null,null,[
-					newElement("h3",null,null,"title",[
-						newElement("a",null,null,{href:artists[i].getAttribute("href")},
-							artists[i].getElementsByTagName("name")[0].textContent
-						)
-					])
-				])
+				createTree({
+					tag:"li",
+					contents:[
+						{
+							tag:"h3",
+							className:"title",
+							contents:{
+								tag:"a",
+								attr:{
+									href:artists[i].getAttribute("href")
+								},
+								contents:artists[i].getElementsByTagName("name")[0].textContent
+							}
+						},
+						{
+							tag:"div",
+							className:"link",
+							contents:artists[i].getAttribute("href")
+						},
+						{
+							tag:"div",
+							className:"detail",
+							contents:"Popularity: " + artists[i].getElementsByTagName("popularity")[0].textContent
+						}
+					]
+				})
 			);
 		}
 	});
