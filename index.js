@@ -17,9 +17,9 @@ function ajaxCall(url,callback) {
 	xmlhttp.send();
 }
 
-function newElement(tag,class,contents) {
+function newElement(tag,name,classes,attrs,contents) {
 	var ret=document.createElement(tag);
-	ret.className=class;
+	ret.className=classes;
 	switch ( typeof contents ) {
 	case "string":
 		ret.innerHTML=contents;
@@ -28,8 +28,31 @@ function newElement(tag,class,contents) {
 		for ( var i = 0; i < contents.length; i++ ) {
 			ret.appendChild(contents[i]);
 		}
+		break;
 	default:
 		console.log("Unknown type of contents passed to newElement: " + typeof contents);
+	}
+	return ret;
+}
+
+function createTree(descriptor) {
+	var ret=document.createElement(descriptor.tag);
+	ret.id=descriptor.id;
+	ret.className=descriptor.className;
+	if ( descriptor.attr ) {
+		for ( var a in descriptor.attr ) {
+			ret.setAttribute( a, descriptor.attr[a] );
+		}
+	}
+	if ( descriptor.contents ) {
+		switch (typeof descriptor.contents ) {
+			case "string":
+				ret.innerHTML=descriptor.contents;
+				break;
+			case "object":
+				ret.appendChild(createTree(descriptor.contents));
+				break;
+		}
 	}
 	return ret;
 }
@@ -42,21 +65,28 @@ function searchArtist(query) {
 	ajaxCall("http://ws.spotify.com/search/1/artist?q=" + query,function (result , err) {
 		if (err) {
 			console.log("Error happened: "+err);
-		} else {
-			console.log("Success: " + result);
-			console.log("XML node name: " + result.nodeName);
-			var artists=result.childNodes[0].getElementsByTagName("artist");
-			for(var i=0;i<artists.length;i++){
-				var header=document.createElement("h3");
-				header.className="title";
-				var headerLink=document.createElement("a");
-				headerLink.setAttribute("href",artists[i].getAttribute("href"));
-				headerLink.innerHTML=artists[i].getElementsByTagName("name")[0].textContent;
-				header.appendChild(headerLink);
-				var listItem=document.createElement("li");
-				listItem.appendChild(header);
-				artistResults.appendChild(listItem);
-			}
+			return;
+		}
+
+		var artists = result.childNodes[0].getElementsByTagName("artist");
+		for ( var i = 0; i < artists.length ; i++ ) {
+			var header = document.createElement("h3");
+			header.className = "title";
+			var headerLink = document.createElement("a");
+			headerLink.setAttribute( "href", artists[i].getAttribute("href") );
+			headerLink.innerHTML = artists[i].getElementsByTagName("name")[0].textContent;
+			header.appendChild( headerLink );
+			var listItem = document.createElement( "li" );
+			listItem.appendChild( header );
+			artistResults.appendChild(
+				newElement("li",null,null,null,[
+					newElement("h3",null,null,"title",[
+						newElement("a",null,null,{href:artists[i].getAttribute("href")},
+							artists[i].getElementsByTagName("name")[0].textContent
+						)
+					])
+				])
+			);
 		}
 	});
 }
