@@ -1,18 +1,64 @@
 function ajaxCall(url,callback) {
 	var xmlhttp=new XMLHttpRequest();
 	xmlhttp.onreadystatechange=function() {
-		if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-			if (callback) {
-				callback(xmlhttp.responseText,null);
-			}
-		} else {
-			if (callback) {
-				callback(null,xmlhttp.status);
+		if (xmlhttp.readyState==4) {
+			if (xmlhttp.status==200) {
+				if (callback) {
+					callback(xmlhttp.responseXML,null);
+				}
+			}else {
+				if (callback) {
+					callback(null,xmlhttp.status);
+				}
 			}
 		}
 	}
 	xmlhttp.open("GET",url,true);
 	xmlhttp.send();
+}
+
+function newElement(tag,class,contents) {
+	var ret=document.createElement(tag);
+	ret.className=class;
+	switch ( typeof contents ) {
+	case "string":
+		ret.innerHTML=contents;
+		break;
+	case "object"://it must be an array of elements
+		for ( var i = 0; i < contents.length; i++ ) {
+			ret.appendChild(contents[i]);
+		}
+	default:
+		console.log("Unknown type of contents passed to newElement: " + typeof contents);
+	}
+	return ret;
+}
+
+/**
+ * This method searches for artists and parses the results and puts them in a designated area in the HTML
+ */
+function searchArtist(query) {
+	artistSearchTerm.innerText = query;
+	ajaxCall("http://ws.spotify.com/search/1/artist?q=" + query,function (result , err) {
+		if (err) {
+			console.log("Error happened: "+err);
+		} else {
+			console.log("Success: " + result);
+			console.log("XML node name: " + result.nodeName);
+			var artists=result.childNodes[0].getElementsByTagName("artist");
+			for(var i=0;i<artists.length;i++){
+				var header=document.createElement("h3");
+				header.className="title";
+				var headerLink=document.createElement("a");
+				headerLink.setAttribute("href",artists[i].getAttribute("href"));
+				headerLink.innerHTML=artists[i].getElementsByTagName("name")[0].textContent;
+				header.appendChild(headerLink);
+				var listItem=document.createElement("li");
+				listItem.appendChild(header);
+				artistResults.appendChild(listItem);
+			}
+		}
+	});
 }
 
 /**
@@ -23,14 +69,15 @@ function getUrlVars() {
 		this.ret = {};
 		console.log("window.location.href = '" + window.location.href + "'");
 		var queryIndex=window.location.href.indexOf("?");
-		console.log("No query string in the url");
 		if (queryIndex > -1) {
 			var hashes = window.location.href.slice(queryIndex + 1).split('&');
 			for (var i = 0; i < hashes.length; i++) {
-				var hash = hashes[i].split("=");
+				var hash = unescape(hashes[i]).split("=");
 				console.log("Query parameter: '" + hash[0] + "' = '" + hash[1] + "'");
 				this.ret[hash[0]] = hash[1];
 			}
+		} else {
+			console.log("No query string in the url");
 		}
 	}
     return this.ret;
@@ -43,11 +90,18 @@ function queryFromSpotify(query) {
 	var colon=query.indexOf(":");
 	var searchType=query.substr(0,colon);
 	var searchTerms=query.substr(colon + 1);
-	searchTerms=unescape(searchTerms);
 	console.log("searchType = '" + searchType + "' searchTerms = '" + searchTerms + "'");
 	switch (searchType.toLowerCase()) {
 		case "artist":
-			ajaxCall("http://ws.spotify.com/search/1/artist?q=" + searchTerms);
+			ajaxCall("http://ws.spotify.com/search/1/artist?q=" + searchTerms,function(result,err) {
+				if(err) {
+					console.log("Error happened: "+err);
+				} else {
+					console.log("Success: " + result);
+					console.log("XML node name: " + result.nodeName);
+					console.log("XML children: " + result.childNodes.length);
+				}
+			});
 		break;
 		case "album":
 			ajaxCall("http://ws.spotify.com/search/1/album?q=" + searchTerms);
@@ -57,10 +111,19 @@ function queryFromSpotify(query) {
 		break;
 		default:
 			console.log("Search type not understandable: '" + searchType + "'");
+			searchArtist(searchTerms);
 	}
 }
 
 window.onload=function() {
+	searchButton.addEventListener("click" , function(e) {
+		queryFromSpotify(searchField.value);
+	});
+	searchField.addEventListener("keypress" , function(e) {
+		if (e.which == 13) {
+			queryFromSpotify(searchField.value);
+		}
+	});
 	//window.location
 	//a.push(20);
 	var urlVars=new getUrlVars();

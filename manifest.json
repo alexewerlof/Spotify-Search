@@ -1,10 +1,21 @@
 {
   "name": "Spotify Search",
   "description": "Search Spotify artist, albums and tracks right from the URL bar of Chrome",
-  "version": "0.1",
+  "version": "0.3",
   "omnibox": { "keyword" : "spotify" },
   "background": {
     "scripts": ["background.js"]
   },
-  "permissions": [ "tabs", "http://ws.spotify.com/" ]
+  "browser_action": {
+    "default_icon": "logo19.png"
+  },
+  "icons":{
+	  "16":"logo16.png",
+	  "32":"logo32.png",
+	  "64":"logo64.png",
+	  "128":"logo128.png",
+	  "256":"logo256.png"
+  },
+  "permissions": [ "tabs", "http://ws.spotify.com/" ],
+  "manifest_version": 2
 }
