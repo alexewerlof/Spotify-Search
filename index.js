@@ -100,9 +100,6 @@ function createTree(descriptor) {
  * This method searches for artists and parses the results and puts them in a designated area in the HTML
  */
 function searchArtist(query) {
-	if ( !query ) {
-		return;
-	}
 	artistSearchTerm.innerText = query;
 	ajaxCall( "http://ws.spotify.com/search/1/artist?q=" + escape(query),function ( result, err ) {
 		if (err) {
@@ -158,9 +155,6 @@ function searchArtist(query) {
  * This method searches for album and parses the results and puts them in a designated area in the HTML
  */
 function searchAlbum(query) {
-	if ( !query ) {
-		return;
-	}
 	albumSearchTerm.innerText = query;
 	ajaxCall( "http://ws.spotify.com/search/1/album?q=" + escape(query),function ( result, err ) {
 		if (err) {
@@ -226,9 +220,6 @@ function searchAlbum(query) {
  * This method searches for tracks and parses the results and puts them in a designated area in the HTML
  */
 function searchTrack(query) {
-	if ( !query ) {
-		return;
-	}
 	trackSearchTerm.innerText = query;
 	ajaxCall( "http://ws.spotify.com/search/1/track?q=" + escape(query),function ( result, err ) {
 		if (err) {
@@ -336,34 +327,12 @@ function getUrlVars() {
  * Detects the type of a query and fetches the result
  */
 function queryFromSpotify(query) {
-	var colon=query.indexOf(":");
-	var searchType=query.substr(0,colon);
-	var searchTerms=query.substr(colon + 1);
-	console.log("searchType = '" + searchType + "' searchTerms = '" + searchTerms + "'");
-	switch (searchType.toLowerCase()) {
-		case "artist":
-			ajaxCall("http://ws.spotify.com/search/1/artist?q=" + searchTerms,function(result,err) {
-				if(err) {
-					console.log("Error happened: "+err);
-				} else {
-					console.log("Success: " + result);
-					console.log("XML node name: " + result.nodeName);
-					console.log("XML children: " + result.childNodes.length);
-				}
-			});
-		break;
-		case "album":
-			ajaxCall("http://ws.spotify.com/search/1/album?q=" + searchTerms);
-		break;
-		case "track":
-			ajaxCall("http://ws.spotify.com/search/1/track?q=" + searchTerms);
-		break;
-		default:
-			console.log("Search type not understandable: '" + searchType + "'");
-			searchArtist(searchTerms);
-			searchAlbum(searchTerms);
-			searchTrack(searchTerms);
+	if ( !query ) {
+		return;
 	}
+	searchArtist(query);
+	searchAlbum(query);
+	searchTrack(query);
 }
 
 window.onload=function() {
@@ -380,6 +349,7 @@ window.onload=function() {
 	var urlVars=new getUrlVars();
 	if (urlVars["userString"]) {
 		console.log("There is a userString: '" + urlVars["userString"] + "'");
+		searchField.value=urlVars["userString"];
 		queryFromSpotify(urlVars["userString"]);
 	} else {
 		console.log("There is no userString");

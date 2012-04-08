@@ -17,9 +17,7 @@ function openSpotifySearchTab(query) {
 chrome.omnibox.onInputChanged.addListener(function(text, suggest) {
 	console.log('inputChanged: ' + text);
 	suggest([
-		{content: "artist:" + text, description: "Search Artists on Spotify"},
-		{content: "album:"  + text, description: "Search Albums on Spotify"},
-		{content: "track:"  + text, description: "Search Tracks on Spotify"}
+		{content: text, description: "Search for " + text + " on Spotify"}
 	]);
 });
 
