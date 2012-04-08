@@ -7,44 +7,36 @@
 <script type="text/javascript" src="index.js"></script>
 </head>
 <body>
-<input id="searchField" type="text" /><input id="searchButton" type="button" />
+<div id="stickyLogo"></div>
+<input id="searchField" type="text" autofocus="autofocus"/><input id="searchButton" type="button"/>
 <hr />
 <div class="results">
-	<div class="artists">
-    	<h2><a title="only artists" href="haha">Artists for <span id="artistSearchTerm" class="search-term">MADONA</span></a></h2>
-        <ol id="artistResults">
-            <li>
-                <h3 class="title"><a href="spotify:search?q=madona">Madonna</a></h3>
-                <div class="link">spotify:madona-uri</div>
-                <div class="details">Popularity: 1.89</div>
-            </li>
+	<div id="artistPanel" class="hidden">
+    	<h2>Artists for <span id="artistSearchTerm" class="search-term"></span></h2>
+        <ol id="artistResults" class="results">
         </ol>
     </div>
-	<div class="albums">
-    	<h2><a title="only albums" href="haha">Albums for <span id="albumSearchTerm">MADONA</span></a></h2>
-        <ol id="albumResults">
-            <li>
-                <h3 class="title"><a href="spotify:search?q=madona">Album title</a> by <a href="spotify:search?q=madona" class="search-term">Madonna</a></h3>
-                <div class="link">spotify:album-uri</div>
-                <div class="details">Popularity: 1.89</div>
-            </li>
+	<div id="albumPanel" class="hidden">
+    	<h2>Albums for <span id="albumSearchTerm" class="search-term"></span></h2>
+        <ol id="albumResults" class="results">
         </ol>
     </div>
-	<div class="tracks">
-    	<h2><a title="only tracks" href="haha">Tracks for <span id="trackSearchTerm">MADONA</span></a></h2>
-        <ol id="trackResults">
-            <li>
-                <h3 class="title"><a href="spotify:search?q=madona">Track</a> from <a href="spotify:search?q=madona" class="search-term">Album title</a> by <a href="spotify:search?q=madona">Madonna</a></h3>
-                <div class="link">spotify:album-uri</div>
-                <div class="details">Popularity: 1.89, Track Number, Track Length</div>
-            </li>
+	<div id="trackPanel" class="hidden">
+    	<h2>Tracks for <span id="trackSearchTerm" class="search-term"></span></h2>
+        <ol id="trackResults" class="results">
         </ol>
     </div>
 </div>
-Sp <a href="o">o</a> <a href="o">o</a> <a href="o">o</a> <a href="o">o</a> <a href="o">o</a> <a href="o">o</a> tify
-
 <footer>
-this is not an official spotify extension
+      Notes:
+  <ul>
+    <li>
+      You need to have Spotify installed on your machine to play the music you find here.
+    </li>
+    <li>
+      This is not an official spotify extension
+    </li>
+  </ul>
 </footer>
 </body>
 </html>
