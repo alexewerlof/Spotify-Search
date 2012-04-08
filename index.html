@@ -7,8 +7,13 @@
 <script type="text/javascript" src="index.js"></script>
 </head>
 <body>
-<div id="stickyLogo"></div>
-<input id="searchField" type="text" autofocus="autofocus"/><input id="searchButton" type="button"/>
+<header>
+    <img id="searchSpotifyLogo" src="main-page-logo.png" alt="Search Spotify" />
+    <div id="searchContainer">
+    <input id="searchField" type="text" autofocus="autofocus"/>
+    </div>
+    <input id="searchButton" type="button"/>
+</header>
 <hr />
 <div class="results">
 	<div id="artistPanel" class="hidden">
@@ -28,15 +33,10 @@
     </div>
 </div>
 <footer>
-      Notes:
-  <ul>
-    <li>
-      You need to have Spotify installed on your machine to play the music you find here.
-    </li>
-    <li>
+  <hr />
+      You need to have Spotify installed on your machine to play the music you find here.<br />
       This is not an official spotify extension
-    </li>
-  </ul>
+  <div id="stickyLogo"></div>
 </footer>
 </body>
 </html>
