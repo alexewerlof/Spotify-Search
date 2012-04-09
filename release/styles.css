@@ -28,8 +28,6 @@ div.results{
 	height:100%;
 }
 ol.results{
-	background-color:red;
-	max-height:25%;
 	overflow:auto;
 }
 .hidden{

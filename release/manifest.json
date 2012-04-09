@@ -11,10 +11,8 @@
   },
   "icons":{
 	  "16":"logo16.png",
-	  "32":"logo32.png",
-	  "64":"logo64.png",
-	  "128":"logo128.png",
-	  "256":"logo256.png"
+	  "48":"logo48.png",
+	  "128":"logo128.png"
   },
   "permissions": [ "tabs", "http://ws.spotify.com/" ],
   "manifest_version": 2
