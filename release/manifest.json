@@ -1,7 +1,7 @@
 {
   "name": "Spotify Search",
   "description": "Search Spotify artist, albums and tracks right from the URL bar of Chrome",
-  "version": "0.3",
+  "version": "1.0",
   "omnibox": { "keyword" : "spotify" },
   "background": {
     "scripts": ["background.js"]
