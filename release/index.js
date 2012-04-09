@@ -1,3 +1,9 @@
+/**
+ * Sends an ajax GET request to a server and calls callback upon receiving any kind of feedback (success or failure). It caches the results.
+ * @param url the full path of the ajax GET request including the parameters.
+ * @callback a function that will be called in case of success or error. The function has this signature: function (successOutput, errorOutput)
+ *           only one of the outputs in not null. So error checking can be simply done by testubg if errorOutput is not null in the body of callback function.
+ */
 function ajaxCall(url,callback) {
 	var xmlhttp=new XMLHttpRequest();
 	xmlhttp.onreadystatechange=function() {
@@ -20,6 +26,7 @@ function ajaxCall(url,callback) {
 /**
  * This is a simple utility function that takes a number of seconds as input and gives a string that contains the number of
  * minutes and seconds in MM:SS format
+ * @param sec the raw second value. It can be a float but only the integer part will be considered
  */
 function formatTime(sec){
 	sec=parseInt(sec);
@@ -35,6 +42,7 @@ function formatTime(sec){
 
 /**
  * Creates the class name for a popularity number
+ * @param popularity a number between 0 to 1 that will be mapped to 0 to 12 bars by returning the corresponding class name. See style.css for more information.
  */
 function getPupularityClass(popularity) {
 	var p=parseFloat(popularity);
@@ -46,13 +54,18 @@ function getPupularityClass(popularity) {
 }
 
 /**
- * A utility function that creates a HTML DOM based on the descriptor.
- * The descriptor is an object that has the following members:
- * tag: (mandatory) string, the name of the HTML tag to be created. Example: "li" for creating a <li> element
- * id: (optional) string, the id that will be assigned to the element's id attribute. Example: "searchButton"
- * className: (optional) string, the name(s) that will be assigned to the element's className. If there are multiple classes, they should be separated by space. Example: "artist popularity"
- * attr: (optional) object, all the key-value pairs of this object will be added as attributes to the created element. Example: {href:"#",name:"badLink"} in an <a> element will be <a href="#" name:"badLink"></a>
- * contents: (optional) string, object or an array of objects. If it's string, it will go directly to the element text. If it is an object, it will be treated as a descriptor itself and passed to this function recursively. If it is an array, it will be supposed to be an array of descriptors
+ * A utility function that creates a HTML DOM based on the descriptor. This function may be called recursively if the
+ * descriptor.contents exists and is a descriptor or an array of descriptors.
+ * @param descriptor The descriptor is an object that has the following members:
+ *   tag:       (mandatory) string, the name of the HTML tag to be created. Example: "li" for creating a <li> element
+ *   id:        (optional) string, the id that will be assigned to the element's id attribute. Example: "searchButton"
+ *   className: (optional) string, the name(s) that will be assigned to the element's className. If there are multiple classes,
+ *              they should be separated by space. Example: "artist popularity"
+ *   attr:      (optional) object, all the key-value pairs of this object will be added as attributes to the created element. 
+ *               Example: {href:"#",name:"badLink"} in an <a> element will be <a href="#" name:"badLink"></a>
+ *   contents:  (optional) string, object or an array of objects. If it's string, it will go directly to the element text.
+ *              If it is an object, it will be treated as a descriptor itself and passed to this function recursively. If it is
+ *              an array, it will be supposed to be an array of descriptors
  * @return a DOM structure that can be used with appendChild() function to insert
  */
 function createTree(descriptor) {
@@ -98,6 +111,7 @@ function createTree(descriptor) {
 
 /**
  * This method searches for artists and parses the results and puts them in a designated area in the HTML
+ * @param query the query to send to the server
  */
 function searchArtist(query) {
 	artistSearchTerm.innerText = query;
@@ -153,6 +167,7 @@ function searchArtist(query) {
 
 /**
  * This method searches for album and parses the results and puts them in a designated area in the HTML
+ * @param query the query to send to the server
  */
 function searchAlbum(query) {
 	albumSearchTerm.innerText = query;
@@ -218,6 +233,7 @@ function searchAlbum(query) {
 
 /**
  * This method searches for tracks and parses the results and puts them in a designated area in the HTML
+ * @param query the query to send to the server
  */
 function searchTrack(query) {
 	trackSearchTerm.innerText = query;
@@ -324,7 +340,8 @@ function getUrlVars() {
 }
 
 /**
- * Detects the type of a query and fetches the result
+ * Detects the type of a query and fetches the results. Currently it calls all three types of query: artist, album, track
+ * @param query the query to send to the server
  */
 function queryFromSpotify(query) {
 	if ( !query ) {
@@ -335,6 +352,10 @@ function queryFromSpotify(query) {
 	searchTrack(query);
 }
 
+/**
+ * this will be called as soon as the page is loaded. It will look for any parameters passed to index.html and interprets them as query.
+ * if no parameter is passed, it just shows the search box waiting for the user to type something.
+ */
 window.onload=function() {
 	searchButton.addEventListener("click" , function(e) {
 		queryFromSpotify(searchField.value);

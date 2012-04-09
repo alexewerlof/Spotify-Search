@@ -1,68 +1,15 @@
 body{
 	background-color:white;
 }
-hr{
-	border:1px solid #F90;
-}
-#stickyLogo{
-	position:fixed;
-	right:0;
-	bottom:0;
-	width: 500px;
-	height: 500px;
-	z-index: -1;
-	background-image:url(bg.png);
-	background-repeat:no-repeat;
-	background-position:bottom right;
-}
-#searchSpotifyLogo{
-	display:inline-block;
-}
-h2,h3{
-	font-size:18px;
-	font-weight:normal;
-	margin:0;
-	padding:0;
-}
-div.results{
-	height:100%;
-}
-ol.results{
-	overflow:auto;
-}
-.hidden{
-	display:none;
-}
-.results li{
-	margin-bottom:20px;
-	color:#555;
-}
-.link{
-	color:#090;
-	font-size: 75%;
-	font-family: Arial;
-}
-.details{
-	color:#555;
-}
-.search-term{
-	font-weight:bold;
-}
-.trackNumber{
-	font-size: 75%;
-	color: #666;
-	margin-left: 0.4em;
-	margin-right: 0.4em;
-	border: 1px solid #096;
-	border-radius: 3px;
-	padding: 0 3px 0 3px;
-}
+/*----------------------------header----------------------------*/
 header{
 	height:50px;
 }
 #searchSpotifyLogo{
 	position:absolute;
+	display:inline-block;
 }
+/*----------------------------search controls----------------------------*/
 #searchContainer
 {
 	position:absolute;
@@ -106,6 +53,50 @@ header{
 #searchButton:active {
 	background-position:-60px 0;
 }
+/*----------------------------search results----------------------------*/
+hr{
+	border:1px solid #F90;
+}
+h2,h3{
+	font-size:18px;
+	font-weight:normal;
+	margin:0;
+	padding:0;
+}
+div.results{
+	height:100%;
+}
+ol.results{
+	overflow:auto;
+}
+.hidden{
+	display:none;
+}
+.results li{
+	margin-bottom:20px;
+	color:#555;
+}
+.link{
+	color:#090;
+	font-size: 75%;
+	font-family: Arial;
+}
+.details{
+	color:#555;
+}
+.search-term{
+	font-weight:bold;
+}
+.trackNumber{
+	font-size: 75%;
+	color: #666;
+	margin-left: 0.4em;
+	margin-right: 0.4em;
+	border: 1px solid #096;
+	border-radius: 3px;
+	padding: 0 3px 0 3px;
+}
+/*----------------------------popularity----------------------------*/
 .popularity{
 	height:10px;
 	width:50px;
@@ -153,9 +144,21 @@ header{
 .popularity-12{
 	background-position:0 -130px;
 }
+/*----------------------------footer----------------------------*/
 footer{
 	text-align:center;
 	font-family:Verdana, Geneva, sans-serif;
 	font-size:11px;
 	color:#999;
+}
+#stickyLogo{
+	position:fixed;
+	right:0;
+	bottom:0;
+	width: 500px;
+	height: 500px;
+	z-index: -1;
+	background-image:url(bg.png);
+	background-repeat:no-repeat;
+	background-position:bottom right;
 }
