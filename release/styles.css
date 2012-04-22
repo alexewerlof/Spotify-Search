@@ -58,6 +58,12 @@ hr{
 	border:1px solid #F90;
 }
 h2,h3{
+	font-size:22px;
+	font-weight:bold;
+	margin:0;
+	padding:0;
+}
+h3{
 	font-size:18px;
 	font-weight:normal;
 	margin:0;

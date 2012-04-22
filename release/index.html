@@ -17,27 +17,34 @@
 <hr />
 <div class="results">
 	<div id="artistPanel" class="hidden">
-    	<h2>Artists for <span id="artistSearchTerm" class="search-term"></span></h2>
+   	  <h2><a name="artistsResultHeader">Artists for <span id="artistSearchTerm" class="search-term"></span></a>
+        (<a href="#albumsResultHeader">albums</a> | <a href="#tracksResultHeader">tracks</a>)
+        </h2>
         <ol id="artistResults" class="results">
         </ol>
     </div>
 	<div id="albumPanel" class="hidden">
-    	<h2>Albums for <span id="albumSearchTerm" class="search-term"></span></h2>
+   	  <h2><a name="albumsResultHeader">Albums for <span id="albumSearchTerm" class="search-term"></span></a>
+        (<a href="#artistsResultHeader">artists</a> | <a href="#tracksResultHeader">tracks</a>)
+        </h2>
         <ol id="albumResults" class="results">
         </ol>
     </div>
 	<div id="trackPanel" class="hidden">
-    	<h2>Tracks for <span id="trackSearchTerm" class="search-term"></span></h2>
+   	  <h2><a name="tracksResultHeader">Tracks for <span id="trackSearchTerm" class="search-term"></span></a>
+        (<a href="#artistsResultHeader">artists</a> | <a href="#albumsResultHeader">albums</a>)
+        </h2>
         <ol id="trackResults" class="results">
         </ol>
     </div>
 </div>
 <footer>
   <hr />
-      You need to have Spotify installed on your machine to play the music you find here.<br />
-      This is not an official spotify extension<br />
-      <a href="http://www.userpixel.com/spotify-search">help</a> | <a href="https://www.facebook.com/SpotifySearch">Facebook</a> | <a href="https://chrome.google.com/webstore/detail/mbfidnchdapodgcioijplmonencnfpoa/reviews">review</a> | <a href="http://www.userpixel.com/about">author</a>
-      <div id="stickyLogo"></div>
+      <p><a href="http://www.userpixel.com/spotify-search">Help</a> | <a href="https://www.facebook.com/SpotifySearch">Facebook</a> | <a href="https://chrome.google.com/webstore/detail/mbfidnchdapodgcioijplmonencnfpoa/reviews">Review</a> | <a href="http://www.userpixel.com/about">Author</a></p>
+      <p>This extension uses Spotify&reg; but is not endorsed, certified or otherwise approved in any way by Spotify. Spotify is the registered trade mark of the Spotify Group.<br />
+        You need to have Spotify installed on your machine to play the music you find here.<br />
+      </p>
+<div id="stickyLogo"></div>
 </footer>
 </body>
 </html>
