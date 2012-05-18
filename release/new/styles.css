@@ -1,0 +1,225 @@
+/*
+http://css-tricks.com/custom-scrollbars-in-webkit/
+*/
+::-webkit-scrollbar-track-piece{
+	background-color:#555;
+	-webkit-border-radius:0;
+}
+::-webkit-scrollbar{
+	width:10px;
+	height:10px;
+}
+::-webkit-scrollbar-thumb{
+	background-color:#888;
+}
+::-webkit-scrollbar-thumb:hover{
+	height:5px;
+	background-color:#9f9f9f;
+}
+::-webkit-scrollbar-corner {
+	background-color:#555;
+}
+/*---------------------------------------------------------------------------*/
+body{
+	padding:0;
+	margin:0;
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:14px;
+	background-color:#555;
+}
+a {
+	color:#ccc;
+	text-decoration:none;
+}
+a:hover {
+	text-decoration:underline;
+}
+a.main-item {
+	color:#FFF;
+	font-weight:bold;
+	font-size:110%;
+}
+div.lat {
+	position:absolute;
+	background-color:#333;
+	height:100%;
+}
+div.lat:nth-child(1){
+	width:25%;
+	left:0;
+}
+div.lat:nth-child(2){
+	width:25%;
+	left:25%;
+}
+div.lat:nth-child(3){
+	width:25%;
+	left:50%;
+}
+div.lat:nth-child(4){
+	width:25%;
+	left:75%;
+}
+div.lat .header {
+	height:30px;
+	background: -webkit-linear-gradient(top, #e6e6e6 0%,#b3b3b3 10%,#666666 90%,#222 100%);
+	text-shadow:0 1px 1px #ccc;
+	cursor:default;
+	font-size:16px;
+	padding:10px 5px 0px 5px;
+	-webkit-user-select: none;
+	text-align:center;
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+}
+.contents {
+	position:absolute;
+	top:40px;
+	bottom:0;
+	width:100%;
+	overflow-y:scroll;
+}
+.result-list {
+	margin:0;
+	list-style:none;
+	padding:0;
+}
+.result-list li{
+	color:#999;
+	cursor:default;
+	padding:10px;
+}
+.result-list li .line1{
+	
+}
+.result-list li .line2{
+	font-size:10px;
+}
+.result-list li .line2 .icon{
+	display:none;
+}
+.result-list li:hover .line2 .icon{
+	display:inline-block;
+}
+.result-list li.loading {
+	background-color:#111 !important;
+}
+div.lat .result-list li .item-title{
+	font-size:15px;
+	position: relative;
+	top: -3px;
+}
+.result-list li:nth-child(odd) {
+	background-color:rgb(71,71,71);
+}
+.result-list li:nth-child(even) {
+	background-color:rgb(55,55,55);
+}
+.result-list li:nth-child(odd):hover {
+	background-color:rgb(75,75,75);
+}
+.result-list li:nth-child(even):hover {
+	background-color:rgb(60,60,60);
+}
+#play-window {
+	border:0;
+	margin:0;
+	padding:0;
+	width:100%;
+	height:100%;
+}
+/*------------------------------------STARS----------------------------------*/
+.stars{
+	width:60px;
+	height:20px;
+	background-image:url(images.png);
+	display: inline-block;
+	vertical-align:top;
+}
+.stars.p0 { background-position:0 0;}
+.stars.p1 { background-position:0 -20px;}
+.stars.p2 { background-position:0 -40px;}
+.stars.p3 { background-position:0 -60px;}
+.stars.p4 { background-position:0 -80px;}
+.stars.p5 { background-position:0 -100px;}
+.stars.p6 { background-position:0 -120px;}
+.stars.p7 { background-position:0 -140px;}
+.stars.p8 { background-position:0 -160px;}
+.stars.p9 { background-position:0 -180px;}
+/*------------------------------------ICONS----------------------------------*/
+.icon {
+	width:20px;
+	height:20px;
+	background-image:url(images.png);
+	display: inline-block;
+	vertical-align:top;
+	margin:0 5px 0 0;
+}
+.icon.artist {
+	background-position:0 -200px;
+}
+.icon.artist-black {
+	background-position:-20px -200px;
+}
+.icon.album {
+	background-position:0 -220px;
+}
+.icon.album-black {
+	background-position:-20px -220px;
+}
+.icon.track {
+	background-position:0 -240px;
+}
+.icon.track-black {
+	background-position:-20px -240px;
+}
+.icon.links {
+	background-position:-0px -440px;
+}
+.icon.share {
+	background-position:-0px -420px;
+}
+.icon.in-spotify {
+	background-position:-0px -300px;
+}
+/*************************************** Search page ************************************/
+#search-box-container {
+	position:absolute;
+	left:20%;
+	right:20%;
+	top:40%;
+	/*border:1px solid red;*/
+}
+#input-wrapper {
+	border-radius:30px;
+	background-color:white;
+}
+#search-box {
+	background-color:transparent;
+	width:100%;
+	border:none;
+	padding:5px;
+}
+#search-box:focus {
+	outline:none !important;
+}
+#suggestions {
+	width:100%;
+	margin:10px 0 0 0;
+	padding:0;
+	height:400px;
+	overflow-y:scroll;
+	background-color:white;
+	color:#333;
+	list-style-type:none;
+}
+#suggestions li{
+	cursor:default;
+	list-style:none;
+}
+#suggestions li:hover{
+	color:#EEE;
+	background-color:#666;
+	cursor:pointer;
+}
