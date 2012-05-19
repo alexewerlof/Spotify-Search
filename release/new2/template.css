@@ -1,0 +1,87 @@
+/* site-wide template settings */
+
+/*
+http://css-tricks.com/custom-scrollbars-in-webkit/
+*/
+::-webkit-scrollbar-track-piece{
+	background-color:#555;
+	-webkit-border-radius:0;
+}
+::-webkit-scrollbar{
+	width:10px;
+	height:10px;
+}
+::-webkit-scrollbar-thumb{
+	background-color:#888;
+}
+::-webkit-scrollbar-thumb:hover{
+	height:5px;
+	background-color:#9f9f9f;
+}
+::-webkit-scrollbar-corner {
+	background-color:#555;
+}
+/*---------------------------------------------------------------------------*/
+body{
+	padding:0;
+	margin:0;
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:14px;
+	background-color:#555;
+	color:#BBB;
+}
+a {
+	color:#ccc;
+	text-decoration:none;
+}
+a:hover {
+	text-decoration:underline;
+}
+li:nth-child(odd) {
+	background-color:rgb(71,71,71);
+}
+li:nth-child(even) {
+	background-color:rgb(55,55,55);
+}
+li:nth-child(odd):hover {
+	background-color:rgb(75,75,75);
+}
+li:nth-child(even):hover {
+	background-color:rgb(60,60,60);
+}
+/*------------------------------------STARS----------------------------------*/
+.stars{
+	width:60px;
+	height:20px;
+	background-image:url(images.png);
+	display: inline-block;
+	vertical-align:top;
+}
+.stars.p0 { background-position:0 0;}
+.stars.p1 { background-position:0 -20px;}
+.stars.p2 { background-position:0 -40px;}
+.stars.p3 { background-position:0 -60px;}
+.stars.p4 { background-position:0 -80px;}
+.stars.p5 { background-position:0 -100px;}
+.stars.p6 { background-position:0 -120px;}
+.stars.p7 { background-position:0 -140px;}
+.stars.p8 { background-position:0 -160px;}
+.stars.p9 { background-position:0 -180px;}
+/*------------------------------------ICONS----------------------------------*/
+.icon {
+	width:20px;
+	height:20px;
+	background-image:url(images.png);
+	display: inline-block;
+	vertical-align:top;
+	margin:0 5px 0 0;
+}
+.icon.artist {background-position:0 -200px;}
+.icon.album  {background-position:0 -220px;}
+.icon.track  {background-position:0 -240px;}
+.icon.artist-black {background-position:-20px -200px;}
+.icon.album-black  {background-position:-20px -220px;}
+.icon.track-black  {background-position:-20px -240px;}
+.icon.links {background-position:-0px -440px;}
+.icon.share {background-position:-0px -420px;}
+.icon.in-spotify {background-position:-0px -300px;}

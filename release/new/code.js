@@ -92,7 +92,6 @@ latManager = function ( latId, searchUrl ) {
 				line1.append( '<br/><div class="icon artist" title="Artist"></div>' );
 				for ( var a = 0; a < item.artists.length; a++ ) {
 					var artist = $( '<a href="javascript:void(0)" title="Lookup all albums and tracks from artist">' + item.artists[a].name + '</a>' );
-					console.log( item.artists[a].href );
 					artist.click( (function(a) {
 						return function(){
 							latMan.lookup( item.artists[a].href );
@@ -125,19 +124,44 @@ latManager = function ( latId, searchUrl ) {
 	
 	this.lookupCallback = function ( results, latMan ) {
 		latMan.ajaxCallPending = false;
-		alert("yo:" +results );
+
+		artistManager.$resultList.children( "li.loading" ).remove();
+		albumManager.$resultList.children( "li.loading" ).remove();
+		trackManager.$resultList.children( "li.loading" ).remove();
+
+		artistManager.$title.setTextAndTooltip( "Lokked up artists" );
+		albumManager.$title.setTextAndTooltip( "Lokked up artists" );
+		trackManager.$title.setTextAndTooltip( "Lokked up artists" );
+
+		var items = results[results.info.type];
+		for ( var i = 0; i < items.length; i++ ) {
+			// create the list item and the two lines in it
+			var li = $( '<li></li>' );
+			var line1 = $( '<div class="line1"></div>' );
+			var line2 = $( '<div class="line2"></div>' );
+			//process the results based on the type
+			var item = items[i];
+			switch( results.info.type ) {
+			case "artist":
+				
+			break;
+			case "album":
+			break;
+			case "track":
+			break;
+			}
+		}
 	}
 }
 
-var artistManager = new latManager( "artists", "http://ws.spotify.com/search/1/artist.json" );
-var albumManager = new latManager( "albums", "http://ws.spotify.com/search/1/album.json" );
-var trackManager = new latManager( "tracks", "http://ws.spotify.com/search/1/track.json" );
+var artistManager;
+var albumManager;
+var trackManager;
 	
 $( document ).ready( function() {
-	var artistManager = new latManager( "artists", "http://ws.spotify.com/search/1/artist" );
-	var albumManager = new latManager( "albums", "http://ws.spotify.com/search/1/album" );
-	var trackManager = new latManager( "tracks", "http://ws.spotify.com/search/1/track" );
-
+	artistManager = new latManager( "artists", "http://ws.spotify.com/search/1/artist.json" );
+	albumManager = new latManager( "albums", "http://ws.spotify.com/search/1/album.json" );
+	trackManager = new latManager( "tracks", "http://ws.spotify.com/search/1/track.json" );
 	artistManager.search( "jackson" );
 	albumManager.search( "jackson" );
 	trackManager.search( "jackson" );
