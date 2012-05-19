@@ -1,14 +1,14 @@
 li:nth-child(odd) {
-	background-color:rgb(71,71,71);
+	background-color:#313131;
 }
 li:nth-child(even) {
-	background-color:rgb(55,55,55);
+	background-color:#373737;
 }
 li:nth-child(odd):hover {
-	background-color:rgb(75,75,75);
+	background-color:#444c52;
 }
 li:nth-child(even):hover {
-	background-color:rgb(60,60,60);
+	background-color:#495157;
 }
 a.main-item {
 	color:#FFF;
@@ -17,8 +17,8 @@ a.main-item {
 }
 div.lat {
 	position:absolute;
-	background-color:#333;
-	height:100%;
+	top: 30px;
+	bottom: 0;
 }
 div.lat:nth-child(1){
 	width:30%;
@@ -33,22 +33,28 @@ div.lat:nth-child(3){
 	left:65%;
 }
 div.lat .header {
-	height:30px;
-	background: -webkit-linear-gradient(top, #e6e6e6 0%,#b3b3b3 10%,#666666 90%,#222 100%);
-	text-shadow:0 1px 1px #ccc;
-	cursor:default;
-	font-size:16px;
-	padding:10px 5px 0px 5px;
+	height: 22px;
+	background: -webkit-linear-gradient(top, #E6E6E6 0%, #B3B3B3 10%, #666 90%, #222 100%);
+	text-shadow: 0 1px 1px #CCC;
+	cursor: default;
+	font-size: 13px;
+	padding: 2px 5px 0px 5px;
 	-webkit-user-select: none;
-	text-align:center;
-	overflow:hidden;
-	white-space:nowrap;
-	text-overflow:ellipsis;
-	color:#222;
+	text-align: center;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	color: #222;
+	font-weight: bold;
+	position: absolute;
+	right: 0;
+	left: 0;
+	border-right: 1px solid #555;
+	border-left: 1px solid #BBB;
 }
 .contents {
 	position:absolute;
-	top:40px;
+	top:24px;
 	bottom:0;
 	width:100%;
 	overflow-y:scroll;
@@ -61,7 +67,7 @@ div.lat .header {
 .result-list li{
 	color:#999;
 	cursor:default;
-	padding:10px;
+	padding:5px;
 }
 .result-list li .line1{
 	margin-bottom: 7px;

@@ -26,7 +26,7 @@ body{
 	padding:0;
 	margin:0;
 	font-family:Verdana, Geneva, sans-serif;
-	font-size:14px;
+	font-size:11px;
 	background-color:#373737;
 	color:#BBB;
 }
@@ -61,11 +61,10 @@ a:hover {
 /*------------------------------------ICONS----------------------------------*/
 .icon {
 	width:20px;
-	height:20px;
+	height:17px;
 	background-image:url(icons.png);
 	display: inline-block;
-	vertical-align:top;
-	margin:0 5px 0 0;
+	vertical-align:middle;
 }
 .icon.artist {background-position:0 -200px;}
 .icon.album  {background-position:0 -220px;}
