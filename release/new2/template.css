@@ -28,13 +28,25 @@ body{
 	font-family:Verdana, Geneva, sans-serif;
 	font-size:11px;
 	background-color:#373737;
-	color:#BBB;
+	color:#888;
+}
+h1,h2{
+	color:#B6D0B0;
+}
+h1 {
+	font-size:18px;
+}
+h2 {
+	font-size:16px;
+}
+p {
+	padding:10px;
 }
 iframe {
 	background-color:transparent;
 }
 a {
-	color:#ccc;
+	color:#fff;
 	text-decoration:none;
 }
 a:hover {

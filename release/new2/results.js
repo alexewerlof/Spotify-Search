@@ -135,6 +135,8 @@ function autoComplete ( txt ){
 				}
 				//what happens when a suggestion is clicked
 				$( "#suggestions li" ).click(function(){
+					$( "#suggestions li.selected" ).removeClass( "selected" );
+					$(this).addClass( "selected" );
 					searchBox.val( $(this).text() );
 					searchAll( searchBox.val() );
 					suggestions.hide();
@@ -151,6 +153,7 @@ $( document ).ready( function() {
 	artistManager = new latManager("artists", "http://ws.spotify.com/search/1/artist.json");
 	albumManager  = new latManager( "albums", "http://ws.spotify.com/search/1/album.json" );
 	trackManager  = new latManager( "tracks", "http://ws.spotify.com/search/1/track.json" );
+	
 	suggestions.click( function(e) {
 		event.stopPropagation();
 	});
@@ -166,8 +169,48 @@ $( document ).ready( function() {
 		//console.log( String.fromCharCode( e.which ) );
 		var txt = $( "#search-box").val();
 		if ( txt.length > 0 ) {
-			if ( e.which == 13 ) {
-				window.location = "results.html?" + escape( txt )
+			switch ( e.which ) {
+			case 13://enter key
+				window.location = "results.html?" + escape( txt );
+				return false;
+			case 38://up arrow key
+				suggestions.children( "li" ).each( function(index, Element) {
+					if( $(this).hasClass( "selected" ) ) {
+						if ( index == 0 ) {//can't go upper than the first element!
+							return false;
+						}
+						$(this).removeClass( "selected" );
+						//add ".selected" class to previous child
+						var newSel = $(this).prev();
+						newSel.addClass( "selected" );
+						searchBox.val( newSel.text() );
+						return false;
+					}
+				});
+				e.preventDefault();
+				return false;
+			case 40://down arrow key
+				if ( suggestions.children( "li.selected" ).length > 0 ){//if there is at least one selected item
+					suggestions.children( "li" ).each( function(index, Element) {
+						if( $(this).hasClass( "selected" ) ) {
+							if ( $(this).next().length == 0 ) {//can't go lower than the last element!
+								return false;
+							}
+							$(this).removeClass( "selected" );
+							//add ".selected" class to previous child
+							var newSel = $(this).next();
+							newSel.addClass( "selected" );
+							searchBox.val( newSel.text() );
+							return false;
+						}
+					});
+				} else {
+					//just select the first item in the list
+					suggestions.children( "li:first-child" ).addClass( "selected" );
+				}
+				e.preventDefault();
+				return false;
+			default: console.log("key code: " + e.which);
 			}
 			autoComplete( txt );
 		} else{ //there is no string, hence no suggestion
