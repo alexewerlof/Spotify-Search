@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	var params = window.location.search;
+	var params = unescape( window.location.search );
 	if ( params ) {
 		var uri_e = params.match(/(spotify:track:\w+)/);
 		if (! uri_e ) {

@@ -117,8 +117,8 @@ $( document ).ready( function() {
 	albumManager  = new latManager( "albums", "http://ws.spotify.com/search/1/album.json" );
 	trackManager  = new latManager( "tracks", "http://ws.spotify.com/search/1/track.json" );
 	
-	var params = window.location.search;
-	var query = params.match(/\?q=(.+)/);
+	var params = unescape( window.location.search );
+	var query = params.match(/\?(.+)/);
 	if ( !query ){
 		console.log( "No query. Going to the search page" );
 		window.location = "search.html";

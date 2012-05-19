@@ -28,7 +28,7 @@ $( document ).ready( function() {
 		var txt = $( "#search-box").val();
 		if ( txt.length > 0 ) {
 			if ( e.which == 13 ) {
-				window.location = "results.html?q=" + escape( txt )
+				window.location = "results.html?" + escape( txt )
 			}
 			autoComplete( txt );
 		} else{ //there is no string, hence no suggestion

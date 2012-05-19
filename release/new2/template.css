@@ -44,7 +44,7 @@ a:hover {
 .stars{
 	width:60px;
 	height:20px;
-	background-image:url(images.png);
+	background-image:url(icons.png);
 	display: inline-block;
 	vertical-align:top;
 }
@@ -62,7 +62,7 @@ a:hover {
 .icon {
 	width:20px;
 	height:20px;
-	background-image:url(images.png);
+	background-image:url(icons.png);
 	display: inline-block;
 	vertical-align:top;
 	margin:0 5px 0 0;
