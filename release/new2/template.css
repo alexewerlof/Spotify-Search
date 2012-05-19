@@ -44,7 +44,7 @@ a:hover {
 .stars{
 	width:60px;
 	height:20px;
-	background-image:url(icons.png);
+	background-image:url(images/icons.png);
 	display: inline-block;
 	vertical-align:top;
 }
@@ -62,7 +62,7 @@ a:hover {
 .icon {
 	width:20px;
 	height:17px;
-	background-image:url(icons.png);
+	background-image:url(images/icons.png);
 	display: inline-block;
 	vertical-align:middle;
 }
@@ -75,3 +75,10 @@ a:hover {
 .icon.links {background-position:-0px -440px;}
 .icon.share {background-position:-0px -420px;}
 .icon.in-spotify {background-position:-0px -300px;}
+.waiting-animation{
+	display: inline-block;
+	height:16px;
+	width:16px;
+	background-image:url(images/waiting.gif);
+	vertical-align:middle;
+}

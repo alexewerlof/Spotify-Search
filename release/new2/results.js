@@ -1,3 +1,9 @@
+var artistManager;
+var albumManager;
+var trackManager;
+var suggestions;
+var searchBox;
+
 /**
  * Every latManager, manages a lat.
  * It will take care of automatically making the Ajax calls for paging
@@ -25,7 +31,7 @@ latManager = function ( latId, searchUrl ) {
 		this.$resultList.empty();
 		this.$title.setTextAndTooltip( "Searching '" + this.lastSearchQuery + "'..." );
 		this.ajaxCallPending = true;//this flag should be set to false in the callback
-		this.$resultList.append( '<li class="loading"><div class="line1"><img src="waiting.gif" />Loading results...</div></li>' );
+		this.$resultList.append( '<li class="loading"><div class="line1"><div class="waiting-animation"></div>Loading results...</div></li>' );
 		ajaxCall( this.searchUrl + "?q=" + escape(this.lastSearchQuery), this.searchCallback, this);
 	}
 
@@ -91,17 +97,13 @@ latManager = function ( latId, searchUrl ) {
 				}
 				if ( latMan.currentPage + 1 <= latMan.maxPages ) {
 					latMan.currentPage++;
-					latMan.$resultList.append( '<li class="loading"><div class="line1"><img src="waiting.gif" />Loading page ' + latMan.currentPage + '</div></li>' );
+					latMan.$resultList.append( '<li class="loading"><div class="line1"><div class="waiting-animation"></div>Loading page ' + latMan.currentPage + '</div></li>' );
 					ajaxCall( latMan.searchUrl + "?q=" + escape( latMan.lastSearchQuery ) + "&page=" + latMan.currentPage, latMan.searchCallback, latMan );
 				}
 			}
 		};
 	})(this));	
 }
-
-var artistManager;
-var albumManager;
-var trackManager;
 
 /**
  * Search for artists, albums and tracks
@@ -111,17 +113,74 @@ function searchAll( query ) {
 	albumManager.search( query );
 	trackManager.search( query );
 }
+
+//** maximum number of items suggested from each category (artists, albums, tracks) for auto-complete
+const MAX_ITEMS = 7;
+//** returns an array of completions for the txt
+function autoComplete ( txt ){
+	var ret = new Array();
+	suggestions.hide().empty();
+	ajaxCall( "http://ws.spotify.com/search/1/artist.json?q=" + escape( txt ), function(artistResults) {
+		ajaxCall( "http://ws.spotify.com/search/1/album.json?q=" + escape( txt ), function(albumResults) {
+			ajaxCall( "http://ws.spotify.com/search/1/track.json?q=" + escape( txt ), function(trackResults) {
+				suggestions.show().empty();
+				for ( var i = 0; i < Math.min( MAX_ITEMS, artistResults.info.num_results); i++) {
+					suggestions.append( "<li>" + artistResults.artists[i].name + "</li>" );
+				}
+				for ( var i = 0; i < Math.min( MAX_ITEMS, albumResults.info.num_results); i++) {
+					suggestions.append( "<li>" + albumResults.albums[i].name + "</li>" );
+				}
+				for ( var i = 0; i < Math.min( MAX_ITEMS, trackResults.info.num_results); i++) {
+					suggestions.append( "<li>" + trackResults.tracks[i].name + "</li>" );
+				}
+				//what happens when a suggestion is clicked
+				$( "#suggestions li" ).click(function(){
+					searchBox.val( $(this).text() );
+					searchAll( searchBox.val() );
+					suggestions.hide();
+				});
+				suggestions.show();
+			}, ret);
+		},ret);
+	}, ret);
+}
 	
 $( document ).ready( function() {
+	searchBox = $( "#search-box" )
+	suggestions = $( "#suggestions" );
 	artistManager = new latManager("artists", "http://ws.spotify.com/search/1/artist.json");
 	albumManager  = new latManager( "albums", "http://ws.spotify.com/search/1/album.json" );
 	trackManager  = new latManager( "tracks", "http://ws.spotify.com/search/1/track.json" );
+	suggestions.click( function(e) {
+		event.stopPropagation();
+	});
+	$( document ).click( function(e) {
+		suggestions.hide();
+	});
+	searchBox.click( function (e) {
+		suggestions.show();
+		event.stopPropagation();
+	});
+
+	searchBox.keyup( function(e) {
+		//console.log( String.fromCharCode( e.which ) );
+		var txt = $( "#search-box").val();
+		if ( txt.length > 0 ) {
+			if ( e.which == 13 ) {
+				window.location = "results.html?" + escape( txt )
+			}
+			autoComplete( txt );
+		} else{ //there is no string, hence no suggestion
+			$( "#suggestions" ).empty();
+		}		
+	});
 	
 	var params = unescape( window.location.search );
 	var query = params.match(/\?(.+)/);
 	if ( !query ){
-		console.log( "No query. Going to the search page" );
-		window.location = "search.html";
-	}
-	searchAll( query[1] );
+		console.log( "No query" );
+	} else {
+		$( "#search-box" ).val( query[1] );
+		searchAll( query[1] );
+	}	
 });

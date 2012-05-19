@@ -1,3 +1,7 @@
+//{{OPTIONS:
+//**maximum number of suggestions that omnibox will show
+const MAX_OMNIBOX_SUGGESTIONS = 5;
+//}}OPTIONS
 /**
  * Opens a new tab optionally showing the result of a query
  */
@@ -24,34 +28,16 @@ chrome.omnibox.onInputEntered.addListener(function(text) {
  * This even is fired everytime the search string changes
  */
 chrome.omnibox.onInputChanged.addListener( function( txt, suggestFn) {
-	ajaxCall( "http://ws.spotify.com/search/1/artist.json?q=" + escape( txt ), function(artistResults) {
-		ajaxCall( "http://ws.spotify.com/search/1/album.json?q=" + escape( txt ), function(albumResults) {
-			ajaxCall( "http://ws.spotify.com/search/1/track.json?q=" + escape( txt ), function(trackResults) {
-				var ret = new Array();
-				//maximum 1 artist is enough
-				for ( var i = 0; i < Math.min( 1, artistResults.info.num_results); i++) {
-					ret.push({
-						content: artistResults.artists[i].name,
-						description: artistResults.artists[i].name + " <dim>(artist)</dim>"
-					});
-				}
-				//up to two albums
-				for ( var i = 0; i < Math.min( 2, albumResults.info.num_results); i++) {
-					ret.push({
-						content: albumResults.albums[i].name,
-						description: albumResults.albums[i].name + " <dim>(album)</dim>"
-					});
-				}
-				//and the rest of the quota can go to tracks. Currently Chrome shows up to 5 suggestions, that's why.
-				for ( var i = 0; i < Math.min( 5 - ret.length, trackResults.info.num_results); i++) {
-					ret.push({
-						content: trackResults.tracks[i].name,
-						description: trackResults.tracks[i].name + " <dim>(track)</dim>"
-					});
-				}
-				suggestFn( ret );
+	//we only use tracks to guess what the user has typed. It's faster and less likely to cause a problem when the user types too fast
+	ajaxCall( "http://ws.spotify.com/search/1/track.json?q=" + escape( txt ), function(trackResults) {
+		var ret = new Array();
+		for ( var i = 0; i < Math.min( MAX_OMNIBOX_SUGGESTIONS, trackResults.info.num_results); i++) {
+			ret.push({
+				content: trackResults.tracks[i].name,
+				description: trackResults.tracks[i].name + " <dim>(press enter to see more)</dim>"
 			});
-		});
+		}
+		suggestFn( ret );
 	});
 });
 
@@ -60,7 +46,7 @@ chrome.omnibox.onInputChanged.addListener( function( txt, suggestFn) {
  */
 chrome.browserAction.onClicked.addListener(function(tab) {
 	chrome.tabs.create({
-		"url":"search.html"
+		"url":"results.html"
 	});
 });
 
