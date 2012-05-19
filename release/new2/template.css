@@ -27,8 +27,11 @@ body{
 	margin:0;
 	font-family:Verdana, Geneva, sans-serif;
 	font-size:14px;
-	background-color:#555;
+	background-color:#373737;
 	color:#BBB;
+}
+iframe {
+	background-color:transparent;
 }
 a {
 	color:#ccc;
@@ -36,18 +39,6 @@ a {
 }
 a:hover {
 	text-decoration:underline;
-}
-li:nth-child(odd) {
-	background-color:rgb(71,71,71);
-}
-li:nth-child(even) {
-	background-color:rgb(55,55,55);
-}
-li:nth-child(odd):hover {
-	background-color:rgb(75,75,75);
-}
-li:nth-child(even):hover {
-	background-color:rgb(60,60,60);
 }
 /*------------------------------------STARS----------------------------------*/
 .stars{

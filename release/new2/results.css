@@ -1,3 +1,15 @@
+li:nth-child(odd) {
+	background-color:rgb(71,71,71);
+}
+li:nth-child(even) {
+	background-color:rgb(55,55,55);
+}
+li:nth-child(odd):hover {
+	background-color:rgb(75,75,75);
+}
+li:nth-child(even):hover {
+	background-color:rgb(60,60,60);
+}
 a.main-item {
 	color:#FFF;
 	font-weight:bold;
@@ -13,12 +25,12 @@ div.lat:nth-child(1){
 	left:0;
 }
 div.lat:nth-child(2){
-	width:30%;
+	width:35%;
 	left:30%;
 }
 div.lat:nth-child(3){
-	width:40%;
-	left:60%;
+	width:35%;
+	left:65%;
 }
 div.lat .header {
 	height:30px;
@@ -52,16 +64,10 @@ div.lat .header {
 	padding:10px;
 }
 .result-list li .line1{
-	
+	margin-bottom: 7px;
 }
 .result-list li .line2{
-	font-size:10px;
-}
-.result-list li .line2 .icon{
-	display:none;
-}
-.result-list li:hover .line2 .icon{
-	display:inline-block;
+	font-size:90%;
 }
 .result-list li.loading {
 	background-color:#111 !important;

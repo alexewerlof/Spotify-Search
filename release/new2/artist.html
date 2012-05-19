@@ -2,9 +2,25 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Untitled Document</title>
+<title>Spotify Search - Artist</title>
+<link rel="stylesheet" type="text/css" href="template.css"/>
+<link rel="stylesheet" type="text/css" href="artist.css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="plugins.js"></script>
+<script type="text/javascript" src="ajaxCall.js"></script>
+<script type="text/javascript" src="artist.js"></script>
 </head>
-
 <body>
+<iframe id="open-spotify"></iframe>
+<table id="links">
+  <tr>
+    <th><label for="uri-code-copyable">URI</label></th>
+    <td><input id="uri-code-copyable" type="text" /></td>
+  </tr>
+  <tr>
+    <th><label for="http-code-copyable">Http</label></th>
+    <td><input id="http-code-copyable" type="text" /></td>
+  </tr>
+</table>
 </body>
 </html>
