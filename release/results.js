@@ -206,7 +206,9 @@ $( document ).ready( function() {
 					});
 				} else {
 					//just select the first item in the list
-					suggestions.children( "li:first-child" ).addClass( "selected" );
+					var newSel = suggestions.children( "li:first-child" );
+					newSel.addClass( "selected" );
+					searchBox.val( newSel.text() );
 				}
 				e.preventDefault();
 				return false;
@@ -225,5 +227,6 @@ $( document ).ready( function() {
 	} else {
 		$( "#search-box" ).val( query[1] );
 		searchAll( query[1] );
-	}	
+	}
+	searchBox.focus();
 });
