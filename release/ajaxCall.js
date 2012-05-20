@@ -17,3 +17,14 @@ function ajaxCall( url, callback, thisRef ) {
 		error: errorCallback
 	});
 }
+
+/**
+ * This function replaces XML character entities. '&', '<' and '>' with '&amp;', '&lt;' and '&gt;' respectively.
+ * It is particularly useful for the XML format in Chrome's Omnibox
+ */
+function sanitize ( str ) {
+	if ( !str ) {
+		return str;
+	}
+	return str.replace( '&', '&amp;' ).replace( '<', '&lt;').replace( '>', '&gt;');
+}

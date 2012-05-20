@@ -31,11 +31,50 @@ chrome.omnibox.onInputChanged.addListener( function( txt, suggestFn) {
 	//we only use tracks to guess what the user has typed. It's faster and less likely to cause a problem when the user types too fast
 	ajaxCall( "http://ws.spotify.com/search/1/track.json?q=" + escape( txt ), function(trackResults) {
 		var ret = new Array();
-		for ( var i = 0; i < Math.min( MAX_OMNIBOX_SUGGESTIONS, trackResults.info.num_results); i++) {
-			ret.push({
-				content: trackResults.tracks[i].name,
-				description: trackResults.tracks[i].name + " <dim>(press enter to see more)</dim>"
-			});
+		if ( trackResults.tracks && trackResults.info.num_results) {
+			for ( var t = 0; ( t < trackResults.info.num_results ) && ( ret.length < MAX_OMNIBOX_SUGGESTIONS ); t++ ) {
+				var track = trackResults.tracks[t];
+				if ( !track.name ){
+					console.log( "Track doesn't have a name!" );
+					continue;
+				}
+				if ( ! /[\w\s]/.test(track.name) ) {
+					console.log( "Track contains non-alphanumerical characters" );
+					continue;
+				}
+				//if a another track with the same title exists, don't repeat it in the suggestion list
+				var repeated = false;
+				for (var r = 0; r < ret.length; r++) {
+					if ( ret[r].content == track.name ) {
+						repeated = true;
+					}
+				}
+				if ( repeated ) {
+					continue;
+				}
+				//get the list of artists for this track
+				var artists = "by ";
+				if ( track.artists ) {
+					for ( var j = 0; j < track.artists.length; j++ ){
+						if ( !track.artists[j].name ) {//if there is no name for this artist, skip it
+							continue;
+						}
+						if ( ! /[\w\s]/.test( track.artists[j].name ) ) {//if the name contains invalid characters, skip it
+							continue;
+						}
+						artists += track.artists[j].name;
+						if ( j < track.artists.length - 1 ){
+							artists += " ";
+						}
+					}
+				}
+				ret.push({
+					content: track.name,
+					description: sanitize( track.name ) + " <dim>" + sanitize( artists ) + "</dim>"
+				});
+			}
+		} else {
+			console.log( "Could not read one or more of the essential loop arguments: trackResults.info.num_results is not defined or is 0 or trackResults.tracks is not defined" );
 		}
 		suggestFn( ret );
 	});

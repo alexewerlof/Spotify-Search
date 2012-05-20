@@ -105,6 +105,11 @@ latManager = function ( latId, searchUrl ) {
 	})(this));	
 }
 
+//** opens a new search page with the search query passed to it as a parameter. It is useful because it will properly be placed in the brower history
+function newSearchPage () {
+	window.location = "results.html?" + escape( $( "#search-box" ).val() );
+}
+
 /**
  * Search for artists, albums and tracks
  */
@@ -142,7 +147,7 @@ function autoComplete (){
 					$( "#suggestions li.selected" ).removeClass( "selected" );
 					$(this).addClass( "selected" );
 					searchBox.val( $(this).text() );
-					searchAll( searchBox.val() );
+					newSearchPage();
 					suggestions.hide();
 				});
 				if ( suggestions.children( "li" ).length > 0 ) {//if there's any suggestion in the list, show it
@@ -177,7 +182,7 @@ $( document ).ready( function() {
 		var txt = $( "#search-box").val();
 		switch ( e.which ) {
 		case 13://enter key
-			window.location = "results.html?" + escape( txt );
+			newSearchPage();
 			//suggestions.hide();
 			//searchAll( escape( txt ) );
 			e.preventDefault();
