@@ -11,6 +11,7 @@ function ajaxCall( url, callback, thisRef ) {
 	$.ajax({
 		type: "GET",
 		url: url,
+		cache: true,
 		dataType: "json",
 		success: successCallback,
 		error: errorCallback

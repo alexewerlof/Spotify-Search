@@ -117,13 +117,17 @@ function searchAll( query ) {
 //** maximum number of items suggested from each category (artists, albums, tracks) for auto-complete
 const MAX_ITEMS = 7;
 //** returns an array of completions for the txt
-function autoComplete ( txt ){
-	var ret = new Array();
-	suggestions.hide().empty();
+function autoComplete (){
+	var txt = $.trim( $( "#search-box").val() );
+	if ( txt == "" ) {
+		suggestions.empty().hide();
+		return;//nothing to do!
+	}
 	ajaxCall( "http://ws.spotify.com/search/1/artist.json?q=" + escape( txt ), function(artistResults) {
 		ajaxCall( "http://ws.spotify.com/search/1/album.json?q=" + escape( txt ), function(albumResults) {
 			ajaxCall( "http://ws.spotify.com/search/1/track.json?q=" + escape( txt ), function(trackResults) {
-				suggestions.show().empty();
+				var ret = new Array();
+				suggestions.empty();
 				for ( var i = 0; i < Math.min( MAX_ITEMS, artistResults.info.num_results); i++) {
 					suggestions.append( "<li>" + artistResults.artists[i].name + "</li>" );
 				}
@@ -141,10 +145,14 @@ function autoComplete ( txt ){
 					searchAll( searchBox.val() );
 					suggestions.hide();
 				});
-				suggestions.show();
-			}, ret);
-		},ret);
-	}, ret);
+				if ( suggestions.children( "li" ).length > 0 ) {//if there's any suggestion in the list, show it
+					suggestions.show();
+				} else {
+					suggestions.hide();
+				}
+			});
+		});
+	});
 }
 	
 $( document ).ready( function() {
@@ -161,63 +169,61 @@ $( document ).ready( function() {
 		suggestions.hide();
 	});
 	searchBox.click( function (e) {
-		suggestions.show();
-		event.stopPropagation();
+		autoComplete();
 	});
 
 	searchBox.keyup( function(e) {
 		//console.log( String.fromCharCode( e.which ) );
 		var txt = $( "#search-box").val();
-		if ( txt.length > 0 ) {
-			switch ( e.which ) {
-			case 13://enter key
-				window.location = "results.html?" + escape( txt );
-				return false;
-			case 38://up arrow key
+		switch ( e.which ) {
+		case 13://enter key
+			window.location = "results.html?" + escape( txt );
+			//suggestions.hide();
+			//searchAll( escape( txt ) );
+			e.preventDefault();
+			return false;
+		case 38://up arrow key
+			suggestions.children( "li" ).each( function(index, Element) {
+				if( $(this).hasClass( "selected" ) ) {
+					if ( index == 0 ) {//can't go upper than the first element!
+						return false;
+					}
+					$(this).removeClass( "selected" );
+					//add ".selected" class to previous child
+					var newSel = $(this).prev();
+					newSel.addClass( "selected" );
+					searchBox.val( newSel.text() );
+					return false;
+				}
+			});
+			e.preventDefault();
+			return false;
+		case 40://down arrow key
+			if ( suggestions.children( "li.selected" ).length > 0 ){//if there is at least one selected item
 				suggestions.children( "li" ).each( function(index, Element) {
 					if( $(this).hasClass( "selected" ) ) {
-						if ( index == 0 ) {//can't go upper than the first element!
+						if ( $(this).next().length == 0 ) {//can't go lower than the last element!
 							return false;
 						}
 						$(this).removeClass( "selected" );
 						//add ".selected" class to previous child
-						var newSel = $(this).prev();
+						var newSel = $(this).next();
 						newSel.addClass( "selected" );
 						searchBox.val( newSel.text() );
 						return false;
 					}
 				});
-				e.preventDefault();
-				return false;
-			case 40://down arrow key
-				if ( suggestions.children( "li.selected" ).length > 0 ){//if there is at least one selected item
-					suggestions.children( "li" ).each( function(index, Element) {
-						if( $(this).hasClass( "selected" ) ) {
-							if ( $(this).next().length == 0 ) {//can't go lower than the last element!
-								return false;
-							}
-							$(this).removeClass( "selected" );
-							//add ".selected" class to previous child
-							var newSel = $(this).next();
-							newSel.addClass( "selected" );
-							searchBox.val( newSel.text() );
-							return false;
-						}
-					});
-				} else {
-					//just select the first item in the list
-					var newSel = suggestions.children( "li:first-child" );
-					newSel.addClass( "selected" );
-					searchBox.val( newSel.text() );
-				}
-				e.preventDefault();
-				return false;
-			default: console.log("key code: " + e.which);
+			} else {
+				//just select the first item in the list
+				var newSel = suggestions.children( "li:first-child" );
+				newSel.addClass( "selected" );
+				searchBox.val( newSel.text() );
 			}
-			autoComplete( txt );
-		} else{ //there is no string, hence no suggestion
-			$( "#suggestions" ).empty();
-		}		
+			e.preventDefault();
+			return false;
+		default:
+			autoComplete();
+		}
 	});
 	
 	var params = unescape( window.location.search );
@@ -228,5 +234,6 @@ $( document ).ready( function() {
 		$( "#search-box" ).val( query[1] );
 		searchAll( query[1] );
 	}
+	suggestions.hide();
 	searchBox.focus();
 });
