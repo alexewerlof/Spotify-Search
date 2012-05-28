@@ -2,6 +2,13 @@
 #logo {
 	position:absolute;
 	left:20px;
+	top: 18px;
+}
+#forkme {
+	position:absolute;
+	left:0;
+	top:0;
+	z-index:100;
 }
 #facebook-like {
 	position:absolute;
@@ -11,14 +18,21 @@
 #other-links {
 	position:absolute;
 	right:20px;
-	top:58px;
+	top:20px;
 	font-size:13px;
 	text-shadow: 0 0 7px #0C3;
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+#other-links li {
+	text-align:right;
+	padding-right:5px;
 }
 #search-box-container {
 	position:absolute;
 	left:200px;
-	right:150px;
+	right:100px;
 	top:35px;
 	/*border:1px solid red;*/
 }
