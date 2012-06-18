@@ -1,11 +1,11 @@
 //this centrally manages all ajax calls
-function ajaxCall( url, callback, thisRef ) {
+function ajaxCall( url, callback, dataVar ) {
 	function errorCallback(jqXHR, textStatus, errorThrown){
 		console.log( "Ajax call failed: " + url);
 	}
 	function successCallback(data, textStatus, jqXHR){
 		if ( callback ) {
-			callback( data, thisRef );
+			callback( data, dataVar );
 		}
 	}
 	$.ajax({

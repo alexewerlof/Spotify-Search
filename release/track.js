@@ -7,6 +7,10 @@ $(document).ready(function() {
 			return;
 		}
 		var uri = uri_e[1];
+		ajaxCall("http://ws.spotify.com/lookup/1/.json?uri="+uri,function(output){
+			$("#youtube-search-link").attr("href", "http://www.youtube.com/results?search_query="+output.track.name);
+			$("#google-search-link").attr("href", "https://www.google.com/search?q="+output.track.name);
+		});
 		$( "#uri-code-copyable" ).val( uri );
 
 		var digits = uri.match(/spotify:track:(\w+)/);

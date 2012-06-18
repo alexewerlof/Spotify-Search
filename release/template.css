@@ -99,3 +99,16 @@ a:hover {
 	background-image:url(images/waiting.gif);
 	vertical-align:middle;
 }
+.icon2 {
+	width:20px;
+	height:20px;
+	background-image:url(images/icons.png);
+	display: inline-block;
+	vertical-align:middle;
+}
+.icon2.youtube {background-position:-20px -280px;}
+.icon2.google {background-position:-20px -320px;}
+.iconstd {
+	text-align:center;
+	height:20px;
+}
